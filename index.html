@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+
+
+var steps = [
+    {
+        title: "Do you want to watch the video?",  // This will appear as the title at top of page
+        id: "start",                               // Used by other steps to refer to this one as next step
+        space_text: "Yes",                         // Text to go in space box
+        space_next: "right",                       // id of which step to go to when space is pressed, leave out if no step
+        enter_text: "No",                          // Text to go in enter box
+        enter_next: "wrong",                       // id of which step to go to when enter is pressed, leave out of no step
+        link: ""                                   // youtube link for video, add ?autoplay=1 to end of url to autoplay
+    },
+    {
+        title: "That is wrong!",
+        id: "wrong", 
+        space_text: "start",
+        space_next: "Back to start",
+        enter_text: "Finish",
+        enter_next: "finish"
+    },
+    {
+        title: "That is right!",
+        id: "right", 
+        space_text: "Back to start",
+        space_next: "start",
+        enter_text: "Finish",
+        enter_next: "finish"
+    },
+    {
+        title: "Well done",
+        id: "finish",
+        link: "https://www.youtube.com/embed/Z_l_kE1MDTc?autoplay=1", 
+    }
+];
+
+
+$(document).ready(function(){
+
+    var q = steps[0]
+    refresh(q);
+
+    $(document).on('keypress', function(e) {
+        var k = e.charCode;
+        if (k == 32) {
+            if (q.space_next) {
+                var nxt = find(q.space_next);
+                if (nxt) {
+                    refresh(nxt);
+                    q = nxt;
+                }
+            }
+        }
+        else if (k == 13) {
+            if (q.enter_next) {
+                var nxt = find(q.enter_next);
+                if (nxt) {
+                    refresh(nxt);
+                    q = nxt;
+                }
+            }
+        }
+        else {
+           // $("#clicked").html("<b>" + k + " pressed</b>");
+        }
+    });
+});
+
+function find(id) {
+    for (var i = 0; i < steps.length; i++) {
+        if (steps[i].id == id) {
+            return steps[i];
+        }
+    }
+}
+
+function refresh(q) {
+    if (!q) {
+        return;
+    }
+    $("#title").text(q.title);
+    if (q.space_text) {
+        $("#spacebox").text(q.space_text);
+        $("#spacebox").show();
+    } 
+    else {
+        $("#spacebox").text("");
+        $("#spacebox").hide();
+    }
+    if (q.enter_text) {
+        $("#enterbox").html(q.enter_text);
+        $("#enterbox").show();
+    }
+    else {
+        $("#enterbox").text("");
+        $("#enterbox").hide();
+    }
+    addLink(q.link);
+}
+
+function addLink(link) {
+    if (link) {
+        var iframe = '<iframe width="560" height="315" src="' + link + '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></iframe>';
+        $("#vid").show();
+        $("#vid").html(iframe);
+    }
+    else {
+        $("#vid").hide();
+        $("#vid").html("");
+    }
+}
+
+</script>
+</head>
+<body align="center">
+
+<h2  align="center" id="title"></h2>
+
+
+<p id="clicked"></p>
+
+<table width="50%" align="center">
+    <tr>
+        <td  align="center">
+            <div id="spacebox" style="background-color: rgb(233, 243, 233) ; padding: 60px; border: 1px solid rgb(0, 0, 0);">
+
+            </div>
+        </td>
+        <td  align="center">
+            <div id="enterbox" style="background-color: rgb(255, 116, 3) ; padding: 60px; border: 1px solid rgb(0, 0, 0);">
+
+            </div>
+        </td>
+    </tr>
+
+</table>
+
+<p id="vid"></p>
+
+
+</body>
+</html>
