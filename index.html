@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<style>
+    #title {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 30px;
+    }
+    #spacebox {
+        background-color: rgb(6, 252, 6); 
+        padding: 60px; 
+        border: 1px solid rgb(0, 0, 0);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 4vw;
+        color: rgb(0, 0, 0);
+    }
+    #enterbox {
+        background-color: rgb(255, 116, 3); 
+        padding: 60px; 
+        border: 1px solid rgb(0, 0, 0);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 4vw;
+        color: rgb(0, 0, 0);
+    }
+    #target {
+        width:0; 
+        overflow: hidden; 
+        opacity:0; 
+        filter:alpha(opacity=0);
+    }
+
+</style>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 
@@ -19,8 +50,8 @@ var steps = [
     {
         title: "That is wrong!",
         id: "wrong", 
-        space_text: "start",
-        space_next: "Back to start",
+        space_next: "start",
+        space_text: "Back to start",
         enter_text: "Finish",
         enter_next: "finish"
     },
@@ -30,12 +61,12 @@ var steps = [
         space_text: "Back to start",
         space_next: "start",
         enter_text: "Finish",
-        enter_next: "finish"
+        enter_next: "finish",
+        link: "https://www.youtube.com/embed/Z_l_kE1MDTc?autoplay=1", 
     },
     {
         title: "Well done",
-        id: "finish",
-        link: "https://www.youtube.com/embed/Z_l_kE1MDTc?autoplay=1", 
+        id: "finish"
     }
 ];
 
@@ -45,7 +76,9 @@ $(document).ready(function(){
     var q = steps[0]
     refresh(q);
 
-    $(document).on('keypress', function(e) {
+
+
+    $( "#target" ).on('keypress', function(e) {
         var k = e.charCode;
         if (k == 32) {
             if (q.space_next) {
@@ -101,11 +134,12 @@ function refresh(q) {
         $("#enterbox").hide();
     }
     addLink(q.link);
+    $( "#target" ).focus();
 }
 
 function addLink(link) {
     if (link) {
-        var iframe = '<iframe width="560" height="315" src="' + link + '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></iframe>';
+        var iframe = '<iframe width="80%" height="400" src="' + link + '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></iframe>';
         $("#vid").show();
         $("#vid").html(iframe);
     }
@@ -121,27 +155,22 @@ function addLink(link) {
 
 <h2  align="center" id="title"></h2>
 
-
-<p id="clicked"></p>
-
-<table width="50%" align="center">
+<table width="100%" align="center">
     <tr>
-        <td  align="center">
-            <div id="spacebox" style="background-color: rgb(233, 243, 233) ; padding: 60px; border: 1px solid rgb(0, 0, 0);">
-
-            </div>
+        <td align="center" colspan=2>
+            <p id="vid"></p>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <div id="spacebox"></div>
         </td>
         <td  align="center">
-            <div id="enterbox" style="background-color: rgb(255, 116, 3) ; padding: 60px; border: 1px solid rgb(0, 0, 0);">
-
-            </div>
+            <div id="enterbox"></div>
         </td>
     </tr>
 
 </table>
-
-<p id="vid"></p>
-
-
+<input id="target" type="text" autocomplete="off">
 </body>
 </html>
