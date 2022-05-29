@@ -76,7 +76,9 @@ $(document).ready(function(){
     var q = steps[0]
     refresh(q);
 
-
+    setInterval(function(){
+        $( "#target" ).focus();
+    }, 1000);
 
     $( "#target" ).on('keypress', function(e) {
         var k = e.charCode;
@@ -153,9 +155,14 @@ function addLink(link) {
 </head>
 <body align="center">
 
-<h2  align="center" id="title"></h2>
+
 
 <table width="100%" align="center">
+    <tr>
+        <td align="center" colspan=2>
+            <h2  align="center" id="title"></h2>
+        </td>
+    </tr>
     <tr>
         <td align="center" colspan=2>
             <p id="vid"></p>
